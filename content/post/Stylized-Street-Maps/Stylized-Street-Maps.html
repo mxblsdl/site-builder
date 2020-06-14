@@ -123,7 +123,7 @@ The ghibli color palettes print with the assinged color in the console, which is
   theme_void() + # remove default gray background
   theme(legend.position = &quot;bottom&quot;,
         text = element_text(size = 20)) + # set all text large. Play with this number based on desired img size
-  guides(color = guide_legend(nrow = 1, # have legend all on one line
+  guides(color = guide_legend(nrow = 2, # have legend all on one line
                               override.aes = (list(size = 5)))) + # change size of point symbols in legend
   scale_color_manual(name = &quot;Street Suffix&quot;, # name of legend
                      values = ghibli::ghibli_palettes$PonyoMedium) + # our selected color palette
