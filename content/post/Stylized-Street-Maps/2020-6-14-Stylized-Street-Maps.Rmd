@@ -1,7 +1,10 @@
 ---
-author: "Max Blasdel"
-date: "September 29, 2019"
 title: "Streets of Humboldt Bay Area"
+author: "Max Blasdel"
+date: '2020-06-14T21:13:14-05:00'
+categories:
+- R
+- Spatial
 ---
 
 ```{r setup, echo=F}

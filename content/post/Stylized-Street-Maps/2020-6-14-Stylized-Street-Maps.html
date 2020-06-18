@@ -1,18 +1,21 @@
 ---
-author: "Max Blasdel"
-date: "September 29, 2019"
 title: "Streets of Humboldt Bay Area"
+author: "Max Blasdel"
+date: '2020-06-14T21:13:14-05:00'
+categories:
+- R
+- Spatial
 ---
 
-<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
-<link href="/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/leaflet/leaflet.js"></script>
-<link href="/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js"></script>
-<script src="/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js"></script>
-<link href="/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
+<script src="2020-6-14-Stylized-Street-Maps_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="2020-6-14-Stylized-Street-Maps_files/jquery/jquery.min.js"></script>
+<link href="2020-6-14-Stylized-Street-Maps_files/leaflet/leaflet.css" rel="stylesheet" />
+<script src="2020-6-14-Stylized-Street-Maps_files/leaflet/leaflet.js"></script>
+<link href="2020-6-14-Stylized-Street-Maps_files/leafletfix/leafletfix.css" rel="stylesheet" />
+<script src="2020-6-14-Stylized-Street-Maps_files/Proj4Leaflet/proj4-compressed.js"></script>
+<script src="2020-6-14-Stylized-Street-Maps_files/Proj4Leaflet/proj4leaflet.js"></script>
+<link href="2020-6-14-Stylized-Street-Maps_files/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+<script src="2020-6-14-Stylized-Street-Maps_files/leaflet-binding/leaflet.js"></script>
 
 
 <p>The following workflow is inspired by some posts I saw on Reddit visualizing the streets of major cities by their suffixes. I decided to do a version for Humboldt. I came up with my own workflow for creating these stylized maps with R.</p>
@@ -129,7 +132,7 @@ The ghibli color palettes print with the assinged color in the console, which is
                      values = ghibli::ghibli_palettes$PonyoMedium) + # our selected color palette
   ggtitle(&quot;Humboldt Bay Area&quot;) +
   theme(plot.title = element_text(size = 40)) </code></pre>
-<p><img src="/post/Stylized-Street-Maps/2020-6-14-Stylized-Street-Maps_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="2020-6-14-Stylized-Street-Maps_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="save-output" class="section level2">
 <h2>Save output</h2>
