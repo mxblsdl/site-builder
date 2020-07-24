@@ -1,7 +1,7 @@
 ---
-title: "Streets of Humboldt Bay Area"
+title: "Streets of Portland"
 author: "Max Blasdel"
-date: '2020-06-14T21:13:14-05:00'
+date: '2020-07-23T21:13:14-05:00'
 categories:
 - R
 - Spatial
@@ -11,9 +11,11 @@ categories:
 knitr::opts_chunk$set(warning = F, message = F)
 ```
 
-The following workflow is inspired by some posts I saw on Reddit visualizing the streets of major cities by their suffixes. I decided to do a version for Humboldt. I came up with my own workflow for creating these stylized maps with R.
+The following work flow is inspired by some posts I saw on Reddit visualizing the streets of major cities by their suffixes. I decided to do a version for Portland. I came up with my own workflow for creating these stylized maps with R.
 
-Data of the streets of Humboldt County was downloaded from the [County Website](https://humboldtgov.org/276/GIS-Data-Download)
+Data for streets of Portland can be found [on their open data website](https://gis-pdx.opendata.arcgis.com/datasets/streets). This will differ for other cities but most major cities should have open data for various civic categories.
+
+To find the street data I search on the keyword 'centerline' and found what I was looking for quickly.
 
 ## Load Libraries
 
@@ -22,76 +24,65 @@ library(sf) # for spatial manipulation
 library(dplyr) # data wrangling
 library(ggplot2) # visualization and final graphing
 library(mapview) # interactive widget library
+library(ghibli) # color palettes
 ```
 
-Find the shapefiles downloaded and unzipped from above link
-```{r}
-shapes_path <- dir(pattern = ".shp$", # find shp files
-                   full.names = T)
-```
+## Find and Load Data
 
-## Load data
+You could download the data and source it locally, but the `sf` package makes it easy to interact with a geojson API. Simply point to the endpoint and load as an sf object.
 
 ```{r}
-roads <-
-  read_sf(shapes_path)
+roads <- read_sf("https://opendata.arcgis.com/datasets/ad5ed4193110452aac2d9485df3298e2_68.geojson")
 
-# inspect
-# head(as.data.frame(roads))
+# inspect to find columns of interest
+# head(roads)
 ```
 
-There are lots of extra data fields that are not needed here. We inspect to find the `STREETTYPE` column. This step wil take some digging with different datasets.
+It is almost guaranteed that a spatial file you find from an ArcGIS API will have tons of fields you don't need. I like to drop anything that I won't need for further analysis. 
+
+After inspecting the data, I find the `FTTYPE` column. This step will take some digging with different datasets.
 
 ## Prepare Data
 
-Select only the relevant information for plotting
+Select only the relevant columns for plotting
 
 ```{r}
 roads <-
   roads %>%
-  select(STREETTYPE)
+  select(FTYPE)
 ```
 
-Projecting the data into a general lat/long coordinate system.
+Now we need to create the canvas or boundaries of the final plot. City boundaries can be very odd and hard to capture so I'm just going to use a circle around the city center.
+
+We'll check the roads data projection and put everything in WGS 84 for simplicity. If you are wondering what WGS 84 is you can read about it [here](https://en.wikipedia.org/wiki/World_Geodetic_System).
 
 ```{r}
-roads <-
-  st_transform(roads, crs = 4326) # WGS 84
+roads <- st_transform(roads, crs = 4326) # WGS 84
 ```
 
-Select a point to center the map around. I played around with this a bit using [Google Earth](https://earth.google.com/web/) and chose a point in Arcata Bay. *You can change the coordinates to deimal in the settings*
+Now we select a point to center the map around. I played around with this a bit using [Google Earth](https://earth.google.com/web/) and chose a point in the Willamette River. Hard pressing with Google Maps will also give you the lat/lon in decimal degrees. 
 
 ```{r}
-Eureka <- 
-  data.frame(y = 40.828731, 
-            x = -124.116183)
-
-Eureka <-
-  st_as_sf(Eureka,
-         coords = c("x", "y"), 
-         crs = 4326) # chose the same coordinate system as above
+portland <- data.frame(y = 45.526104, 
+                       x = -122.666917) %>% 
+            st_as_sf(coords = c("x", "y"), 
+                     crs = 4326) # chose the same coordinate system as above
 ```
 
-Create a buffer around the chosen point to clip the road data to. The data should really be in a projected coordinate system but this approach still works. The `dist` value here is arc degrees which can be hard to conceptualize. Projecting the data to a UTM coordinate system is probably a better approach.
+Create a buffer around the chosen point to clip the road data to. The data should really be in a projected coordinate system but this approach still works. The `dist` value here is arc degrees which is a difficult unit to use, but its essentially a distance value. Projecting the data to a UTM coordinate system is probably a better approach.
 
-Check the buffer distance. This was an iterative process to get the `dist` value correct made easier by mapview.
+Check the buffer distance. This was an iterative process to get the `dist` value correct made easier with `{Leaflet}`.
 ```{r warning=FALSE, message=FALSE}
-buf <- st_buffer(Eureka, dist = .08)
+buf <- st_buffer(portland, dist = .03)
 
-  leaflet::leaflet() %>% 
-  leaflet::addTiles() %>% 
-  leaflet::addPolygons(data = buf)
+mapview(buf)
 ```
 *There will be some warnings about the coordinate system being in lat/long and the distance being in degrees*
 
-Create the buffer and crop the roads layer to inside the desired buffer.
+Crop the roads layer once the buffer area looks good to you.
 
 ```{r}
-buff <-
-  st_buffer(Eureka, dist = .08)
-
-roads <-
-  st_intersection(roads, buff) 
+roads <- st_intersection(roads, buf) 
 ```
 
 There are lots of suffixes that are not well represented in the data. To keep the legend a reasonable size I'm selecting only the top seven suffixes.
@@ -100,58 +91,53 @@ There are lots of suffixes that are not well represented in the data. To keep th
 top_seven_roads <-
   roads %>%
   as.data.frame() %>% # drop geometry column
-  dplyr::count(STREETTYPE) %>%
+  dplyr::count(FTYPE) %>%
   arrange(desc(n)) %>% # arrange from most to least
   slice(1:7) %>% # take the top seven
-  pull(STREETTYPE)
+  pull(FTYPE)
 
 top_seven_roads
 ```
 
-### Set all of the other suffixes to "Other"
-
-For this data `NA` was one of the top eight values from the above operation. Notice that `NA` is the R value `NA` while every other value is a character (in quotes). Change `NA` values to "None". Everything else will be "Other".
+Again to keep the legend a reasonable size we set all other suffixes to 'Other'. I'm also going to reclass `RAMP` as other. This is an aesthetic choice since on and off ramps aren't really roads and I want to keep the legend more manageable.
 
 ```{r}
-roads <-
-  roads %>%
-    mutate(STREETTYPE = case_when(is.na(STREETTYPE) ~ "Other",
-                                  STREETTYPE %in% top_seven_roads ~ STREETTYPE,
+roads <- roads %>%
+    mutate(FTYPE = case_when(FTYPE == "RAMP" ~ "Other",
+                             FTYPE %in% top_seven_roads ~ FTYPE,
                                   TRUE ~ "Other"))
-
-roads$STREETTYPE %>%
+roads$FTYPE %>%
   unique()
 ```
 
 ## Prep data for plotting
 
-Create a vector of colors that is assoicated with each road type and reclassify the characters to factors. This allows the legend to be in the desired order.
-
-I decided to check out the [Studio Ghibli](https://github.com/ewenme/ghibli) color paletts here for fun.
-The ghibli color palettes print with the assinged color in the console, which is fun.
+Create a vector of colors that is associated with each road type and reclassify the characters to factors. This allows the legend to be in the desired order.
 
 ```{r}
-ghibli::ghibli_palettes$PonyoMedium # going with a relatively varied palette
-
-roads$STREETTYPE <- factor(roads$STREETTYPE,
-                           levels = c("RD",
-                                      "CT",
-                                      "AVE",
+# convert to factor for proper ordering in the final plot
+# There is a tidy way of doing this, this method is more natural for me
+roads$FTYPE <- factor(roads$FTYPE,
+                           levels = c("AVE",
                                       "ST",
-                                      "DR",
-                                      "LN",
-                                      "WAY",
+                                      "FWY",
+                                      "BLVD",
+                                      "RD",
+                                      "PKWY",
                                       "Other"))
 ```
 
+
 ## Plotting
 
-Plot out the finished product. I put the most time into this part and there are probably other ways to acheive the same results with different ggplot functions. I've added comments to help identify what does what. You may have to change the `plot.title` depending on the output size of the png.
+Plot out the finished product. I put the most time into this part and there are probably other ways to achieve the same results with different ggplot functions. I've added comments to help identify what does what. You may have to change the `plot.title` depending on the output size of the png.
+
+I used the `{cartography}` package for colors here and I would say color choice makes a large difference in the final product. There is plenty of room to play around with the output.
 
 ```{r}
 ggplot() +
   geom_sf(data = roads,
-          aes(colour = STREETTYPE), # color by column value
+          aes(colour = FTYPE), # color by column value
           show.legend = "point") + # get legend as circles
   theme_void() + # remove default gray background
   theme(legend.position = "bottom",
@@ -159,9 +145,9 @@ ggplot() +
   guides(color = guide_legend(nrow = 2, # have legend all on one line
                               override.aes = (list(size = 5)))) + # change size of point symbols in legend
   scale_color_manual(name = "Street Suffix", # name of legend
-                     values = ghibli::ghibli_palettes$PonyoMedium) + # our selected color palette
-  ggtitle("Humboldt Bay Area") +
-  theme(plot.title = element_text(size = 40)) 
+                     values = carto.pal("pastel.pal")[seq(1,14,2)]) + # our selected color palette
+  ggtitle("Portland Roads") +
+  theme(plot.title = element_text(size = 32))
 ```
 
 ## Save output
