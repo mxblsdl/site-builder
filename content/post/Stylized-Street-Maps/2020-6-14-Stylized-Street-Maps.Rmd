@@ -160,5 +160,5 @@ ggplot() +
 #        dpi = 400) # dots per inch
 ```
 
-This workflow creates a nice stylized map of street suffixes for Humboldt Bay that can be extended to any area where you have road data.
+This workflow creates a nice stylized map of street suffixes for Portland that can be extended to any area where you have road data.
 
