@@ -23,8 +23,9 @@ To find the street data I search on the keyword 'centerline' and found what I wa
 library(sf) # for spatial manipulation
 library(dplyr) # data wrangling
 library(ggplot2) # visualization and final graphing
-library(mapview) # interactive widget library
-library(ghibli) # color palettes
+library(leaflet) # interactive widget library
+library(widgetframe) # helps rendering leaflet in markdown
+library(cartography) # color palettes
 ```
 
 ## Find and Load Data
@@ -72,12 +73,18 @@ portland <- data.frame(y = 45.526104,
 Create a buffer around the chosen point to clip the road data to. The data should really be in a projected coordinate system but this approach still works. The `dist` value here is arc degrees which is a difficult unit to use, but its essentially a distance value. Projecting the data to a UTM coordinate system is probably a better approach.
 
 Check the buffer distance. This was an iterative process to get the `dist` value correct made easier with `{Leaflet}`.
+
+Also note that the package `{widgetframe}` is being used here to embed the leaflet map into RMarkdown. I haven't used this package extensively but it fixes a bug where leaflet maps don't embed properly.
 ```{r warning=FALSE, message=FALSE}
 buf <- st_buffer(portland, dist = .03)
 
-mapview(buf)
+l <- leaflet(buf) %>%
+  addPolygons() %>% 
+  addTiles()
+
+widgetframe::frameWidget(l, width = "100%")
 ```
-*There will be some warnings about the coordinate system being in lat/long and the distance being in degrees*
+*There may be some warnings about the coordinate system being in lat/long and the distance being in degrees*
 
 Crop the roads layer once the buffer area looks good to you.
 
