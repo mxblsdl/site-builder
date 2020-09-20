@@ -5,7 +5,7 @@ headless = false  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 10  # Order that this section will appear.
 
-title = "Methods > Results"
+title = "Process and Results"
 
 # Hero image (optional). Enter filename of an image in the `static/img/` folder.
 # hero_media = "hero-academic.png"
@@ -48,7 +48,7 @@ title = "Methods > Results"
 +++
 
 <center><strong>
-A semi-profressional website about data, maps, and my thoughts
+A semi-professional website showcasing some projects I've done and some thoughts to go with them.
 </strong></center>
 
 
