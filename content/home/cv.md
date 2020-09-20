@@ -15,4 +15,4 @@ weight = 25
 
 +++
 
-My CV is available in [HTML](cv/) or [PDF](cv/pagedown_resume.pdf) form.
+My CV is available in [HTML](cv/) or [PDF](cv/mblasdel.pdf) form.
