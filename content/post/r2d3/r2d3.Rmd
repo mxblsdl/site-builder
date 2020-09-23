@@ -1,7 +1,7 @@
 ---
-title: "Simple D3 Example"
+title: "D3 and Shiny in R Markdown"
 output: html_document
-runtime: shiny
+date: '2020-09-23T21:13:14-05:00'
 ---
 
 ```{r setup, include=FALSE}
@@ -12,44 +12,37 @@ knitr::opts_chunk$set(echo = TRUE)
 
 D3 is a popular Javascript library for visualizations. It can also be used to select and change node elements in a webpage. Additionally, there is an R package, [R2D3](https://rstudio.github.io/r2d3/) that allows for D3 code to be run easily in Shiny.
 
-This workflow was adapted from an `HTML` implementation of D3 on an old website I made. I wanted to reuse some of the code because I like the effect that it makes and adapt it to run in `R` and `Shiny`. This is my first usage of the R2D3 package.
+This workflow was adapted from an `HTML` implementation of D3 on an old website I made. I wanted to reuse some of the code because I like the effect that it makes and adapt it to run in `R` and `Shiny`.
 
 ### Load Libraries
 
-```{r}
+```{r message=FALSE}
 library(shiny)
 library(r2d3)
 ```
 
 ### Create Simple Shiny App
 
-This app won't do anything, hence the empty server function, other than change the ui elements with D3. The JS code is captured in a seperate script that is shown below.
+**Note that Shiny doesn't run in static R markdown documents!** We are just using shiny as a way to generate HTML code, hence no server function. The D3 code then interacts as javascript the rendered HTML page and we can see the effects. 
+\ The JS code is captured in a separate script that is shown below.
 
 ```{r}
-ui <- fluidPage(
+fluidPage(
   r2d3(script = "d3.js", height = 0),# important to set the height of the D3 script
-  
-  # create test divs
-  tags$div(style = "background-color: red; height: 400px",
+  tags$div(style = "background-color: red; height: 200px",
            id = "one",
            "Initial Div"),
   tags$div(style = "height: 0px; opacity: 0; background-color: lightblue",
            id = "two",
            "Next Div"),
-  
-  # create buttons to change the divs
   actionButton("btn-one", "Change Div", class = "btn"),
   actionButton("btn-two", "Change Div Back")
 )
-
-server <- function(input, output) {
-}
-
-shinyApp(ui, server)
 ```
-
+While the same effect could be achieved with jquery or plain JS it was fun to come up with a usage for D3 that integrates into R Markdown so well.
+\
 Contents of `d3.js`
-```{d3, include = F}
+```{d3}
 // define height of original div
 var h = d3.select("#one").node().getBoundingClientRect().height;
 var trans = 1000; // define transition time
