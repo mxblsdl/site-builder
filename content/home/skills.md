@@ -36,4 +36,9 @@ subtitle = ""
   icon = "python"
   icon_pack = "fab"
   name = "Python"
+  
+[[feature]]
+  icon = "database"
+  icon_pack = "fas"
+  name = "SQL"
 +++

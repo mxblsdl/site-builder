@@ -5,7 +5,7 @@ headless = false  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 10  # Order that this section will appear.
 
-title = "Create the Process"
+title = ""
 
 # Hero image (optional). Enter filename of an image in the `static/img/` folder.
 # hero_media = "hero-academic.png"
@@ -23,7 +23,7 @@ title = "Create the Process"
   # {Background image}
   # image = ""  # Name of image in `static/img/`.
   # image_darken = 0.6
-  # image_size = "cover"  #  Options are `cover` (default), `contain`, or `actual` size
+  # image_size = "contain"  #  Options are `cover` (default), `contain`, or `actual` size
   # image_position = "center"  # Options include `left`, `center` (default), or `right`.
   # image_parallax = true  # Use a fun parallax-like fixed background effect? true/false
   
@@ -32,23 +32,25 @@ title = "Create the Process"
 
 # Call to action links (optional).
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
-#[cta]
-  url = "https://sourcethemes.com/academic/docs/install/"
-  label = "Get Started"
+[cta]
+  url = "http://167.71.158.245:3838/"
+  label = "Shiny Server"
   icon_pack = "fas"
-  icon = "download"
+  icon = "code-branch"
   
-[cta_alt]
-  url = "https://sourcethemes.com/academic/"
-  label = "View Documentation"
+#[cta_alt]
+#  url = "http://167.71.158.245:3838/"
+#  label = "Very much in development"
 
 # Optional note underneath the links
-[cta_note]
-#  label = '<a class="js-github-release" href="https://sourcethemes.com/academic/updates" data-repo="gcushen/hugo-academic">Latest release</a>'
+#[cta_note]
+#  label = '<a class="js-github-release" href=https://themes.gohugo.io/academic/>Made with Hugo Academice</a>'
 +++
-
+<!--
 <center><strong>
-A semi-professional website showcasing some projects I've done and some thoughts to go with them.
+My semi-professional website showcasing some projects I've done
 </strong></center>
+-->
+<span>Check out my shiny server. Very much in active development</span>
 
 
