@@ -14,8 +14,8 @@ role: Data Analyst
 
 # Organizations/Affiliations
 organizations:
-- name: Cadmus Group
-  url: "https://cadmusgroup.com/"
+- name: CLEAResult
+  url: "https://www.clearesult.com/"
 
 # Short bio (displayed in user profile at end of posts)
 bio: My interests include writing understandable code, spatial data manipulation, and learning new skills.
@@ -25,7 +25,7 @@ education:
   - course: Master Science in Environmental & Natural Resource Sciences 
     institution: Humboldt State University
     year: 2019
-  - course: Graduate Certiifcate in GIS
+  - course: Graduate Certificate in GIS
     institution: Portland State University
     year: 2015
   - course: Bachelors Science in Natural Resources
@@ -65,7 +65,7 @@ user_groups:
 - Visitors
 ---
 
-I am a data analyst working in the energy sector with a focus on energy efficiency and renewable energy. My background is in natural resource and geospatial sciences. I started writing R code in graduate school and it fundamentaly changed how I approach my professional career. Interested in making data accessible and interesting to others.
+I am a data analyst working in the energy sector with a focus on energy efficiency and renewable energy. My background is in natural resource and geospatial sciences. I started writing R code in graduate school and it fundamentally changed how I approach my professional career. Interested in making data accessible and interesting to others.
 
 
 
