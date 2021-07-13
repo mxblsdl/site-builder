@@ -33,7 +33,7 @@ title = ""
 # Call to action links (optional).
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 [cta]
-  url = "http://167.71.158.245:3838/"
+  url = "http://167.71.158.245:3838/main"
   label = "Shiny Server"
   icon_pack = "fas"
   icon = "code-branch"
