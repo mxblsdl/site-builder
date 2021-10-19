@@ -40,7 +40,7 @@ title = ""
   
 #[cta_alt]
 #  url = "http://167.71.158.245:3838/"
-#  label = "Very much in development"
+#  label = "Activly being developed"
 
 # Optional note underneath the links
 #[cta_note]
@@ -51,6 +51,6 @@ title = ""
 My semi-professional website showcasing some projects I've done
 </strong></center>
 -->
-<span>Check out my shiny server. Very much in active development</span>
+<span>Personal Shiny Server being actively developed</span>
 
 
