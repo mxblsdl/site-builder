@@ -65,7 +65,8 @@ user_groups:
 - Visitors
 ---
 
-I am a data analyst working in the energy sector with a focus on energy efficiency and renewable energy. My background is in natural resource and geospatial sciences. I started writing R code in graduate school and it fundamentally changed how I approach my professional career. Interested in making data accessible and interesting to others.
+I'm a data analyst working in energy efficiency and renewable energy. My background is in natural resource management and geospatial sciences. I started writing R code in graduate school and it fundamentally changed how I approach my professional career. Interested in making data accessible and interesting to others.
 
+In my personal development I've focused on coding and learning how different software tools work together. I've been programming with raspberry pis and python for different projects as well as adding to my R Shiny collection of apps.
 
-
+When I'm not working on a computer I spend time with my 2 year old and try to get on my bike (mountain and roae) as much as possible. 
