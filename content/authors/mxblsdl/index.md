@@ -41,8 +41,8 @@ social:
   icon_pack: fas
   link: '#contact'  # For a direct email link, use "mailto:test@example.org".
 - icon: linkedin
- icon_pack: fab
- link: https://www.linkedin.com/in/max-blasdel/
+  icon_pack: fab
+  link: https://www.linkedin.com/in/max-blasdel/
 #- icon: google-scholar
 #  icon_pack: ai
 #  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
@@ -70,5 +70,3 @@ I'm a data analyst working in energy efficiency and renewable energy. My backgro
 In my personal development I've focused on coding and learning how different software tools work together. I've been programming with raspberry pis and python for different projects as well as adding to my R Shiny collection of apps.
 
 When I'm not working on a computer I spend time with my 2 year old and try to get on my bike (mountain and roae) as much as possible. 
-
-Tester
